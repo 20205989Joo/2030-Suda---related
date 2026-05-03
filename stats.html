@@ -1,0 +1,1506 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>[2030] 수다방 통계</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --black: #0a0908;
+      --cookie-0: #0d0b0a;
+      --cookie-1: #17120f;
+      --cookie-2: #211813;
+      --cookie-3: #33251e;
+      --cookie-edge: #4a3429;
+      --cocoa: #7f634f;
+      --cocoa-soft: #aa8b70;
+      --cocoa-pale: #cfb18f;
+      --cream: #f7efe3;
+      --cream-2: #fffaf1;
+      --beige: #e7d5bb;
+      --mint: #8ff1df;
+      --mint-2: #58d8c3;
+      --mint-deep: #139f8b;
+      --ink: #2b211b;
+      --muted: #7c6b5c;
+      --graph-line: #6d4d3d;
+      --shadow: 0 10px 28px rgba(0,0,0,.34), 0 4px 0 rgba(0,0,0,.35);
+      --inner: inset 0 0 0 2px rgba(255,255,255,.05), inset 0 0 0 7px rgba(0,0,0,.12);
+    }
+
+    html { min-height: 100%; background: var(--black); }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      color: var(--cream);
+      font-family: "Noto Sans KR", "Malgun Gothic", system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(118,89,67,.22) 0 2px, transparent 2.5px),
+        radial-gradient(circle at 72% 14%, rgba(84,61,47,.35) 0 2px, transparent 2.5px),
+        radial-gradient(circle at 84% 76%, rgba(131,101,77,.18) 0 3px, transparent 3.5px),
+        linear-gradient(180deg, #070706 0%, #11100e 48%, #080807 100%);
+      background-size: 90px 90px, 120px 120px, 160px 160px, auto;
+      overflow-x: hidden;
+    }
+
+    button, input { font: inherit; }
+
+    .phone-shell {
+      width: min(100%, 430px);
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: max(10px, env(safe-area-inset-top)) 10px max(14px, env(safe-area-inset-bottom));
+    }
+
+    .app {
+      min-height: calc(100svh - 24px);
+      display: grid;
+      grid-template-rows: 244px minmax(62px, 1fr) 292px;
+      gap: 9px;
+      transition: grid-template-rows .78s cubic-bezier(.18,.9,.18,1), gap .5s ease;
+    }
+
+    .title-area { display: none; }
+
+    .page-title {
+      color: var(--cocoa-pale);
+      font-family: "Noto Sans KR", "Malgun Gothic", system-ui, -apple-system, sans-serif;
+      font-size: clamp(17px, 4.6vw, 21px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.015em;
+      text-shadow:
+        0 2px 0 rgba(0,0,0,.55),
+        0 0 14px rgba(207,177,143,.12);
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .page-title .code {
+      color: #e4c7a4;
+      font-weight: 1000;
+      letter-spacing: .015em;
+    }
+
+    .emboss-divider {
+      width: min(62%, 230px);
+      height: 5px;
+      margin: 8px auto 0;
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, rgba(83,60,46,.95), rgba(18,13,10,.98) 57%, rgba(92,66,50,.75));
+      box-shadow:
+        inset 0 1px 0 rgba(255,247,233,.1),
+        inset 0 -2px 0 rgba(0,0,0,.36),
+        0 1px 0 rgba(255,247,233,.04),
+        0 3px 0 rgba(0,0,0,.2);
+    }
+
+    .cookie-panel {
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #050404;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 16% 28%, rgba(8,7,6,.55) 0 5px, transparent 5.5px),
+        radial-gradient(circle at 72% 18%, rgba(72,53,43,.75) 0 4px, transparent 4.5px),
+        radial-gradient(circle at 85% 65%, rgba(6,5,4,.5) 0 6px, transparent 6.5px),
+        linear-gradient(145deg, #33251e 0%, #17120f 48%, #0b0908 100%);
+      box-shadow: var(--shadow), var(--inner);
+    }
+
+    .cookie-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .45;
+      background-image:
+        linear-gradient(90deg, transparent 0 23px, rgba(255,255,255,.035) 24px, transparent 25px),
+        linear-gradient(0deg, transparent 0 23px, rgba(0,0,0,.13) 24px, transparent 25px);
+      background-size: 48px 48px;
+      mix-blend-mode: screen;
+    }
+
+    .home-hero {
+      height: 244px;
+      padding: 14px;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    .hero-title-block {
+      position: relative;
+      z-index: 1;
+      min-height: 58px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+    }
+
+    .home-dashboard {
+      position: relative;
+      z-index: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .summary-stack {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      align-content: stretch;
+    }
+
+    .total-card {
+      min-height: 66px;
+      padding: 10px 10px 9px;
+      border: 2px solid var(--beige);
+      border-radius: 18px;
+      background: linear-gradient(150deg, rgba(34,25,20,.95), rgba(18,14,11,.92));
+      box-shadow: inset 0 0 0 3px rgba(255,247,233,.045), 0 4px 0 rgba(0,0,0,.25);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: stretch;
+      text-align: left;
+    }
+
+    .total-card .label {
+      display: block;
+      position: relative;
+      align-self: stretch;
+      padding-bottom: 7px;
+      color: #fff;
+      font-size: clamp(9px, 2.45vw, 10.5px);
+      line-height: 1.1;
+      font-weight: 950;
+      letter-spacing: .018em;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    .total-card .label::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--cookie-edge), var(--cookie-1));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 1px 0 rgba(0,0,0,.35);
+      opacity: .95;
+    }
+
+    .total-card .value {
+      display: block;
+      align-self: stretch;
+      color: var(--mint);
+      font-size: clamp(20px, 6vw, 27px);
+      line-height: 1;
+      font-weight: 1000;
+      letter-spacing: -.05em;
+      text-align: right;
+      text-shadow: 0 3px 0 rgba(0,0,0,.42);
+      white-space: nowrap;
+    }
+
+    .ranking-box {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      align-self: stretch;
+      border: 1px solid rgba(231,213,187,.72);
+      border-radius: 18px;
+      background: rgba(14,11,9,.38);
+      box-shadow: inset 0 0 0 2px rgba(255,247,233,.035);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ranking-head {
+      flex: 0 0 auto;
+      padding: 9px 11px 7px;
+      border-bottom: 1px solid rgba(231,213,187,.22);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 1000;
+      letter-spacing: .01em;
+      text-shadow: 0 2px 0 rgba(0,0,0,.35);
+    }
+
+    .ranking-list {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 7px 7px 9px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(215,193,165,.82) rgba(34,25,20,.72);
+    }
+
+    .ranking-list::-webkit-scrollbar { width: 6px; }
+    .ranking-list::-webkit-scrollbar-track {
+      background: rgba(34,25,20,.72);
+      border-radius: 999px;
+      box-shadow: inset 0 0 0 1px rgba(231,213,187,.12);
+    }
+    .ranking-list::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--cocoa-pale), var(--cocoa));
+      border-radius: 999px;
+      box-shadow: inset 0 0 0 1px rgba(255,247,233,.22);
+    }
+
+    .rank-row {
+      display: grid;
+      grid-template-columns: 23px 1fr auto;
+      gap: 6px;
+      align-items: center;
+      min-height: 31px;
+      padding: 6px 7px;
+      border-radius: 12px;
+      color: var(--cream);
+      background: rgba(255,247,233,.055);
+    }
+
+    .rank-row + .rank-row { margin-top: 5px; }
+    .rank-no { color: var(--cocoa-pale); font-size: 11px; font-weight: 950; }
+    .rank-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 900;
+      color: #fff9ef;
+    }
+    .rank-count {
+      color: var(--mint);
+      font-size: 11px;
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .cream-trigger {
+      position: relative;
+      border: 0;
+      border-radius: 28px;
+      padding: 0;
+      background:
+        radial-gradient(ellipse at 50% 15%, rgba(255,255,255,.24), transparent 45%),
+        linear-gradient(180deg, #bafff2, var(--mint) 42%, #62ddc9 100%);
+      box-shadow:
+        inset 0 3px 8px rgba(255,255,255,.36),
+        inset 0 -6px 10px rgba(7,96,84,.22),
+        0 5px 0 rgba(0,0,0,.38),
+        0 12px 22px rgba(0,0,0,.22);
+      color: rgba(16,111,99,.7);
+      font-size: 14px;
+      font-weight: 1000;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: min-height .78s cubic-bezier(.18,.9,.18,1), height .78s cubic-bezier(.18,.9,.18,1), padding .78s cubic-bezier(.18,.9,.18,1), filter .5s ease, border-radius .5s ease;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      height: 100%;
+    }
+
+    .cream-trigger .tap-text {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      transform: translateY(-2px);
+      text-align: center;
+      text-shadow:
+        0 -1px 0 rgba(5,89,77,.48),
+        0 1px 0 rgba(255,255,255,.72),
+        0 0 0 rgba(255,255,255,0);
+      opacity: .9;
+      isolation: isolate;
+      animation: tapGlow 2.9s ease-in-out infinite;
+    }
+
+    .cream-trigger .tap-text::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: -1;
+      width: 0;
+      height: 0;
+      border-radius: 999px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, rgba(255,255,255,.46), rgba(255,255,255,.16) 48%, transparent 72%);
+      box-shadow: 0 0 0 0 rgba(255,255,255,.12);
+      animation: tapPulse 2.9s ease-out infinite;
+    }
+
+    @keyframes tapGlow {
+      0%, 100% {
+        opacity: .86;
+        transform: translateY(-2px) scale(1);
+        filter: brightness(1);
+        text-shadow:
+          0 -1px 0 rgba(5,89,77,.48),
+          0 1px 0 rgba(255,255,255,.72),
+          0 0 0 rgba(255,255,255,0);
+      }
+      28% {
+        opacity: 1;
+        transform: translateY(-2px) scale(1.035);
+        filter: brightness(1.13);
+        text-shadow:
+          0 -1px 0 rgba(5,89,77,.56),
+          0 1px 0 rgba(255,255,255,.86),
+          0 0 14px rgba(255,255,255,.5),
+          0 0 24px rgba(143,241,223,.38);
+      }
+      58% {
+        opacity: .9;
+        transform: translateY(-2px) scale(1);
+      }
+    }
+
+    @keyframes tapPulse {
+      0%, 100% { width: 0; height: 0; opacity: 0; }
+      10% { width: 22px; height: 10px; opacity: .46; }
+      34% { width: 152px; height: 42px; opacity: .22; }
+      62% { width: 220px; height: 58px; opacity: 0; }
+    }
+
+    .cream-trigger::before,
+    .cream-trigger::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      height: 1px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.35);
+      pointer-events: none;
+    }
+
+    .cream-trigger::before { top: 10px; }
+    .cream-trigger::after { bottom: 10px; background: rgba(20,126,111,.25); }
+
+    .cream-inner {
+      display: none;
+      position: relative;
+      z-index: 3;
+      width: calc(100% - 22px);
+      margin: 0 auto;
+      color: var(--ink);
+      text-transform: none;
+      letter-spacing: 0;
+      text-align: left;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(19,159,139,.75) rgba(255,250,241,.5);
+    }
+
+    .cream-inner::-webkit-scrollbar { width: 6px; }
+    .cream-inner::-webkit-scrollbar-track { background: rgba(255,250,241,.5); border-radius: 999px; }
+    .cream-inner::-webkit-scrollbar-thumb { background: rgba(19,159,139,.75); border-radius: 999px; }
+
+    .cream-card {
+      min-height: 100%;
+      height: 100%;
+      border-radius: 22px;
+      background: rgba(255,250,241,.98);
+      box-shadow:
+        inset 0 0 0 2px #fff,
+        inset 0 -5px 16px rgba(211,190,160,.34),
+        0 8px 18px rgba(11,75,66,.18);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .cream-card.has-profile {
+      justify-content: flex-start;
+    }
+
+    .search-line { display: grid; grid-template-columns: 1fr; gap: 8px; flex: 0 0 auto; }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      border: 2px solid #ddceb7;
+      border-radius: 16px;
+      outline: none;
+      padding: 0 13px;
+      background: #fffef9;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 900;
+      box-shadow: inset 0 2px 0 rgba(0,0,0,.04);
+    }
+
+    .search-input:focus {
+      border-color: var(--mint-deep);
+      box-shadow: 0 0 0 4px rgba(143,241,223,.3), inset 0 2px 0 rgba(0,0,0,.04);
+    }
+
+    .hint {
+      color: #816f60;
+      font-size: 11px;
+      font-weight: 850;
+      line-height: 1.35;
+      padding: 0 2px;
+    }
+
+    .hint:empty { display: none; }
+
+    .result-list {
+      display: grid;
+      gap: 6px;
+      max-height: 118px;
+      overflow-y: auto;
+      margin-top: 10px;
+      padding-right: 2px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(19,159,139,.6) rgba(221,206,183,.45);
+      flex: 0 0 auto;
+    }
+    .result-list::-webkit-scrollbar { width: 5px; }
+    .result-list::-webkit-scrollbar-track { background: rgba(221,206,183,.45); border-radius: 999px; }
+    .result-list::-webkit-scrollbar-thumb { background: rgba(19,159,139,.6); border-radius: 999px; }
+    .result-list.is-hidden { display: none; }
+
+    .member-option {
+      min-height: 58px;
+      width: 100%;
+      border: 1px solid #e2d1b9;
+      border-radius: 15px;
+      background: linear-gradient(180deg, #fffef9, #f1e4d2);
+      color: var(--ink);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 2px 0 #ceb99a;
+    }
+
+    .member-option strong {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 1000;
+    }
+
+    .member-option span {
+      color: var(--mint-deep);
+      font-size: 12px;
+      font-weight: 1000;
+      white-space: nowrap;
+    }
+
+    .profile-fields {
+      display: none;
+      margin-top: 10px;
+      gap: 9px;
+      grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+      align-items: stretch;
+      flex: 0 0 auto;
+    }
+
+    .profile-fields.show { display: grid; }
+
+    .profile-stat-stack {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .mini-field {
+      min-height: 50px;
+      padding: 9px 10px;
+      border: 1px solid #e3d3bf;
+      border-radius: 16px;
+      background: #fff8ec;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.6);
+    }
+
+    .mini-field span,
+    .nickname-history > span {
+      display: block;
+      color: #8a7969;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .nickname-history > span { color: #6f5543; }
+
+    .mini-field b {
+      display: block;
+      margin-top: 8px;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.18;
+      font-weight: 1000;
+      word-break: break-word;
+    }
+
+    .nickname-history {
+      min-width: 0;
+      min-height: 100%;
+      max-height: 176px;
+      padding: 10px;
+      border: 1px solid #e3d3bf;
+      border-radius: 16px;
+      background: #fff8ec;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.6);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(92,64,50,.78) rgba(245,231,211,.75);
+    }
+
+    .nickname-history::-webkit-scrollbar { width: 5px; }
+    .nickname-history::-webkit-scrollbar-track { background: rgba(245,231,211,.75); border-radius: 999px; }
+    .nickname-history::-webkit-scrollbar-thumb { background: rgba(92,64,50,.78); border-radius: 999px; }
+
+    .chips {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      width: auto;
+      max-width: 100%;
+      min-height: 25px;
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(231,213,187,.42);
+      background: linear-gradient(150deg, #513a2d, #241a15 62%, #100c0a);
+      color: #fff8ea;
+      font-size: 11px;
+      line-height: 1.16;
+      font-weight: 950;
+      box-shadow: inset 0 1px 0 rgba(255,247,233,.13), 0 2px 0 rgba(0,0,0,.28);
+      word-break: break-word;
+    }
+
+    .radial-wrap {
+      display: none;
+      margin-top: 10px;
+      min-height: 0;
+    }
+
+    .radial-wrap.show {
+      display: flex;
+      flex: 1 1 auto;
+      min-height: 208px;
+    }
+
+    .pattern-carousel {
+      width: 100%;
+      min-height: 100%;
+      border: 1px solid #e3d3bf;
+      border-radius: 18px;
+      background: #fff8ec;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.58);
+      padding: 10px 9px 9px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .pattern-nav {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr) 38px;
+      gap: 6px;
+      align-items: center;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    .pattern-arrow {
+      width: 38px;
+      height: 46px;
+      border: 0;
+      border-radius: 14px;
+      color: var(--mint);
+      background: linear-gradient(150deg, #4b352a, #201713 62%, #100c0a);
+      box-shadow: inset 0 1px 0 rgba(255,247,233,.1), 0 3px 0 rgba(0,0,0,.24);
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 1000;
+      cursor: pointer;
+    }
+
+    .pattern-stage { min-width: 0; }
+
+    .radial-card {
+      min-width: 0;
+      padding: 4px 2px 2px;
+      text-align: center;
+    }
+
+    .radial-title {
+      margin-bottom: 5px;
+      color: #5d493b;
+      font-size: 13px;
+      font-weight: 1000;
+      letter-spacing: -.015em;
+    }
+
+    .radial-card svg {
+      width: min(100%, 218px);
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      filter: drop-shadow(0 4px 0 rgba(0,0,0,.16));
+    }
+
+    .pattern-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 7px;
+    }
+
+    .pattern-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #c9b69b;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
+    }
+
+    .pattern-dot.active { background: var(--mint-deep); }
+
+    .stats-panel {
+      height: 292px;
+      min-height: 0;
+      padding: 13px 13px 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-title {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 1000;
+      letter-spacing: -.02em;
+      text-shadow: 0 2px 0 rgba(0,0,0,.55);
+    }
+
+    .chart-frame {
+      position: relative;
+      z-index: 1;
+      flex: 1 1 auto;
+      min-height: 0;
+      margin-top: 10px;
+      padding: 0 7px 0 25px;
+      border-radius: 18px;
+      border-left: 2px solid rgba(215,193,165,.45);
+      border-bottom: 2px solid rgba(215,193,165,.45);
+      background:
+        linear-gradient(90deg, rgba(215,193,165,.055) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(215,193,165,.05) 1px, transparent 1px);
+      background-size: 34px 34px;
+      overflow: hidden;
+    }
+
+    .bar-chart {
+      height: 100%;
+      min-height: 0;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(24px, 1fr);
+      align-items: stretch;
+      gap: 7px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 32px 3px 76px 2px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(215,193,165,.78) rgba(34,25,20,.84);
+    }
+
+    .bar-chart::-webkit-scrollbar { height: 7px; }
+    .bar-chart::-webkit-scrollbar-track {
+      background: rgba(34,25,20,.84);
+      border-radius: 999px;
+      box-shadow: inset 0 0 0 1px rgba(215,193,165,.14);
+    }
+    .bar-chart::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--cocoa), var(--cocoa-pale), var(--cocoa));
+      box-shadow: inset 0 1px 0 rgba(255,247,233,.18);
+    }
+
+    .bar-unit {
+      min-width: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+    }
+
+    .month-bar {
+      position: relative;
+      width: min(100%, 24px);
+      height: var(--h, 1%);
+      min-height: 5px;
+      border-radius: 11px 11px 4px 4px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.22), transparent 28%),
+        linear-gradient(180deg, var(--cocoa-pale), var(--cocoa-soft));
+      box-shadow:
+        inset -4px 0 0 rgba(75,52,39,.14),
+        inset 0 -5px 0 rgba(78,55,43,.14),
+        0 4px 0 rgba(0,0,0,.22);
+    }
+
+    .month-count {
+      position: absolute;
+      left: 50%;
+      top: -22px;
+      transform: translateX(-50%);
+      color: #f5e0c2;
+      font-size: 9px;
+      font-weight: 950;
+      opacity: .95;
+      white-space: nowrap;
+      text-shadow: 0 2px 0 rgba(0,0,0,.45);
+    }
+
+    .month-label {
+      position: absolute;
+      left: 50%;
+      bottom: -22px;
+      transform: translateX(-50%);
+      color: #ddc7aa;
+      font-size: 9px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .year-label {
+      position: absolute;
+      left: 50%;
+      bottom: -46px;
+      transform: translateX(-50%);
+      color: var(--mint);
+      font-size: 9px;
+      line-height: 1;
+      font-weight: 1000;
+      white-space: nowrap;
+      text-shadow: 0 2px 0 rgba(0,0,0,.45);
+    }
+
+    .loading {
+      position: relative;
+      z-index: 2;
+      padding: 12px;
+      border: 1px dashed rgba(231,213,187,.55);
+      border-radius: 18px;
+      color: #e7d5bb;
+      font-size: 12px;
+      line-height: 1.45;
+      background: rgba(0,0,0,.18);
+    }
+
+    .file-pick { width: 100%; margin-top: 8px; color: var(--mint); font-size: 12px; }
+
+    .empty {
+      padding: 12px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.58);
+      color: #8a7969;
+      font-size: 12px;
+      font-weight: 850;
+      line-height: 1.4;
+    }
+
+    .profile-panel,
+    .stats-label-panel { display: none; }
+
+    .profile-panel {
+      min-height: 68px;
+      padding: 13px 16px;
+      align-items: center;
+    }
+
+    .profile-title {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+      color: var(--mint);
+      font-size: clamp(21px, 7vw, 31px);
+      line-height: 1.05;
+      font-weight: 1000;
+      text-shadow: 0 3px 0 rgba(0,0,0,.52);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .stats-label-panel {
+      min-height: 54px;
+      padding: 13px 16px;
+      align-items: center;
+    }
+
+    .stats-label {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      font-size: 21px;
+      font-weight: 1000;
+      text-shadow: 0 3px 0 rgba(0,0,0,.52);
+    }
+
+    .app.search-mode {
+      grid-template-rows: 72px minmax(0, 1fr) 58px;
+    }
+
+    .app.search-mode .home-hero,
+    .app.search-mode .stats-panel { display: none; }
+
+    .app.search-mode .profile-panel,
+    .app.search-mode .stats-label-panel { display: flex; }
+
+    .app.search-mode .cream-trigger {
+      min-height: 0;
+      height: auto;
+      align-items: stretch;
+      justify-content: stretch;
+      border-radius: 28px;
+      padding: 11px 0;
+      cursor: default;
+      animation: creamOpen .82s cubic-bezier(.16,.92,.2,1) both;
+      transform-origin: center center;
+    }
+
+    .app.search-mode .profile-panel,
+    .app.search-mode .stats-label-panel { animation: cookieSettle .64s cubic-bezier(.16,.92,.2,1) both; }
+    .app.search-mode .cream-trigger .tap-text { display: none; }
+    .app.search-mode .cream-trigger::before,
+    .app.search-mode .cream-trigger::after { display: none; }
+    .app.search-mode .cream-inner {
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+      min-height: 0;
+      animation: searchCardReveal .72s cubic-bezier(.16,.92,.2,1) .16s both;
+    }
+
+    @keyframes creamOpen {
+      0% {
+        clip-path: inset(42% 0 42% 0 round 28px);
+        transform: scaleX(.96) scaleY(.18);
+        filter: brightness(1.12) saturate(1.08);
+        box-shadow:
+          inset 0 3px 8px rgba(255,255,255,.38),
+          inset 0 -6px 10px rgba(7,96,84,.24),
+          0 5px 0 rgba(0,0,0,.38),
+          0 0 0 rgba(143,241,223,0);
+      }
+      38% {
+        clip-path: inset(20% 0 20% 0 round 28px);
+        transform: scaleX(1.025) scaleY(.62);
+        filter: brightness(1.26) saturate(1.15);
+        box-shadow:
+          inset 0 8px 20px rgba(255,255,255,.42),
+          inset 0 -10px 18px rgba(7,96,84,.26),
+          0 6px 0 rgba(0,0,0,.36),
+          0 0 28px rgba(143,241,223,.34);
+      }
+      72% {
+        clip-path: inset(0 0 0 0 round 28px);
+        transform: scaleX(1) scaleY(1.015);
+        filter: brightness(1.06) saturate(1.05);
+      }
+      100% {
+        clip-path: inset(0 0 0 0 round 28px);
+        transform: scaleX(1) scaleY(1);
+        filter: brightness(1) saturate(1);
+      }
+    }
+
+    @keyframes searchCardReveal {
+      0% { opacity: 0; transform: translateY(18px) scaleY(.72); filter: blur(3px); }
+      55% { opacity: 1; transform: translateY(-2px) scaleY(1.02); filter: blur(0); }
+      100% { opacity: 1; transform: translateY(0) scaleY(1); filter: blur(0); }
+    }
+
+    @keyframes cookieSettle {
+      0% { opacity: 0; transform: translateY(-8px) scaleY(.86); }
+      100% { opacity: 1; transform: translateY(0) scaleY(1); }
+    }
+
+    @media (max-width: 360px) {
+      .phone-shell { padding-inline: 8px; }
+      .app { gap: 8px; grid-template-rows: 226px minmax(54px, 1fr) 264px; }
+      .home-hero { height: 226px; padding: 12px; gap: 10px; }
+      .hero-title-block { min-height: 52px; }
+      .home-dashboard { grid-template-columns: .9fr 1.1fr; gap: 8px; }
+      .summary-stack { gap: 9px; }
+      .total-card { min-height: 61px; padding: 9px 8px 8px; }
+      .rank-row { grid-template-columns: 20px 1fr; }
+      .rank-count { display: none; }
+      .stats-panel { height: 264px; }
+      .app.search-mode { grid-template-rows: 70px minmax(0, 1fr) 56px; }
+      .radial-wrap.show { min-height: 178px; }
+    }
+
+    @media (max-height: 720px) {
+      .app { grid-template-rows: 226px minmax(48px, 1fr) 260px; }
+      .home-hero { height: 226px; padding: 12px; gap: 10px; }
+      .hero-title-block { min-height: 52px; }
+      .total-card { min-height: 61px; }
+      .stats-panel { height: 260px; }
+      .bar-chart { padding-top: 30px; padding-bottom: 72px; }
+      .app.search-mode { grid-template-rows: 72px minmax(0, 1fr) 58px; }
+      .radial-wrap.show { min-height: 178px; }
+    }
+
+    @media (min-height: 840px) {
+      .app { grid-template-rows: 244px minmax(76px, 1fr) 292px; }
+      .home-hero { height: 244px; }
+      .stats-panel { height: 292px; }
+      .app.search-mode { grid-template-rows: 72px minmax(0, 1fr) 58px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone-shell">
+    <div id="app" class="app">
+      <section class="cookie-panel home-hero" aria-label="summary dashboard">
+        <div class="hero-title-block">
+          <div class="page-title"><span class="code">[2030]</span> 수다방 통계</div>
+          <div class="emboss-divider" aria-hidden="true"></div>
+        </div>
+
+        <div class="home-dashboard">
+          <div class="summary-stack">
+            <div class="total-card">
+              <span class="label">Total Visitors (최소)</span>
+              <strong id="totalMembers" class="value">-</strong>
+            </div>
+            <div class="total-card">
+              <span class="label">Total messages</span>
+              <strong id="totalMessages" class="value">-</strong>
+            </div>
+          </div>
+
+          <aside class="ranking-box" aria-label="top ranking">
+            <div class="ranking-head">Top 40 (메시지 수)</div>
+            <div id="rankingList" class="ranking-list">
+              <div class="loading">JSON 로드 중</div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="cookie-panel profile-panel" aria-label="profile header">
+        <div id="profileTitle" class="profile-title">#Profile</div>
+      </section>
+
+      <section id="creamTrigger" class="cream-trigger" role="button" tabindex="0" aria-label="open member search">
+        <span class="tap-text">Tap to Search</span>
+        <div class="cream-inner" aria-live="polite">
+          <div id="creamCard" class="cream-card">
+            <div class="search-line">
+              <input id="memberSearch" class="search-input" type="search" autocomplete="off" placeholder="닉네임 검색">
+              <div id="searchHint" class="hint">닉네임 일부를 입력하면 멤버 후보가 나타납니다.</div>
+            </div>
+            <div id="resultList" class="result-list"></div>
+            <div id="profileFields" class="profile-fields"></div>
+            <div id="radialWrap" class="radial-wrap"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cookie-panel stats-panel" aria-label="monthly messages">
+        <div class="panel-title">Monthly Graph</div>
+        <div id="monthlyChart" class="chart-frame">
+          <div class="loading">월별 그래프 준비 중</div>
+        </div>
+      </section>
+
+      <section class="cookie-panel stats-label-panel" aria-label="stats label">
+        <div class="stats-label">Stats</div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const app = document.getElementById('app');
+    const creamTrigger = document.getElementById('creamTrigger');
+    const totalMembersEl = document.getElementById('totalMembers');
+    const totalMessagesEl = document.getElementById('totalMessages');
+    const rankingListEl = document.getElementById('rankingList');
+    const monthlyChartEl = document.getElementById('monthlyChart');
+    const memberSearchEl = document.getElementById('memberSearch');
+    const resultListEl = document.getElementById('resultList');
+    const searchHintEl = document.getElementById('searchHint');
+    const profileTitleEl = document.getElementById('profileTitle');
+    const profileFieldsEl = document.getElementById('profileFields');
+    const radialWrapEl = document.getElementById('radialWrap');
+    const creamCardEl = document.getElementById('creamCard');
+
+    let payload = null;
+    let members = [];
+    let selectedMember = null;
+    let patternIndex = 0;
+
+    const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+    const normalize = (value) => String(value ?? '').trim().toLowerCase();
+    const num = (value) => Number(value || 0).toLocaleString('ko-KR');
+
+    function compactNum(value) {
+      const n = Number(value || 0);
+      if (n >= 1000000) return `${(n / 1000000).toFixed(n >= 10000000 ? 0 : 1)}M`;
+      if (n >= 1000) return `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}K`;
+      return num(n);
+    }
+
+    function safeName(member) {
+      return member?.current_nickname || '이름 없음';
+    }
+
+    function getSearchText(member) {
+      const names = Array.isArray(member.nickname_history) ? member.nickname_history : [];
+      return [member.current_nickname, ...names].join(' ').toLowerCase();
+    }
+
+    function enterSearchMode() {
+      if (!app.classList.contains('search-mode')) {
+        app.classList.remove('opening');
+        void app.offsetWidth;
+        app.classList.add('opening', 'search-mode');
+        setTimeout(() => app.classList.remove('opening'), 900);
+        setTimeout(() => memberSearchEl.focus(), 520);
+      }
+    }
+
+    creamTrigger.addEventListener('click', () => {
+      if (!app.classList.contains('search-mode')) enterSearchMode();
+    });
+
+    creamTrigger.addEventListener('keydown', (event) => {
+      if ((event.key === 'Enter' || event.key === ' ') && !app.classList.contains('search-mode')) {
+        event.preventDefault();
+        enterSearchMode();
+      }
+    });
+
+    function renderSummary() {
+      const fallbackTotal = members.reduce((sum, member) => sum + Number(member.message_count || 0), 0);
+      const messageTotal = Number(payload?.total_message_count || fallbackTotal);
+      totalMembersEl.textContent = num(members.length);
+      totalMessagesEl.textContent = compactNum(messageTotal);
+    }
+
+    function renderRanking() {
+      const sorted = [...members]
+        .sort((a, b) => Number(b.message_count || 0) - Number(a.message_count || 0))
+        .slice(0, 40);
+
+      rankingListEl.innerHTML = sorted.length ? sorted.map((member, index) => `
+        <div class="rank-row">
+          <span class="rank-no">${index + 1}</span>
+          <span class="rank-name">${esc(safeName(member))}</span>
+          <span class="rank-count">${compactNum(member.message_count)}</span>
+        </div>
+      `).join('') : '<div class="loading">멤버 데이터가 없습니다.</div>';
+    }
+
+    function monthParts(value) {
+      const text = String(value || '');
+      const match = text.match(/(\d{4})[-./년\s]*(\d{1,2})/);
+      if (!match) return { month: text || '-', year: '', isJanuary: false };
+      const year = match[1];
+      const monthNumber = Number(match[2]);
+      return {
+        month: String(monthNumber).padStart(2, '0'),
+        year,
+        isJanuary: monthNumber === 1
+      };
+    }
+
+    function renderMonthlyChart() {
+      const rows = Array.isArray(payload?.monthly_conversation_volume) ? payload.monthly_conversation_volume : [];
+      if (!rows.length) {
+        monthlyChartEl.innerHTML = '<div class="loading">월별 대화량 데이터가 없습니다.</div>';
+        return;
+      }
+
+      const max = Math.max(1, ...rows.map(row => Number(row.message_count || row.count || 0)));
+      monthlyChartEl.innerHTML = `
+        <div class="bar-chart" aria-label="monthly message bar chart">
+          ${rows.map(row => {
+            const count = Number(row.message_count || row.count || 0);
+            const height = Math.max(3, Math.round((count / max) * 88));
+            const parts = monthParts(row.month || row.label || '-');
+            return `<div class="bar-unit" title="${esc(row.month || parts.month)}: ${num(count)}개">
+              <div class="month-bar" style="--h:${height}%">
+                <span class="month-count">${compactNum(count)}</span>
+              </div>
+              <span class="month-label">${esc(parts.month)}</span>
+              ${parts.isJanuary ? `<span class="year-label">${esc(parts.year)}</span>` : ''}
+            </div>`;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function clearSelectedView() {
+      selectedMember = null;
+      patternIndex = 0;
+      profileTitleEl.textContent = '#Profile';
+      profileFieldsEl.classList.remove('show');
+      profileFieldsEl.innerHTML = '';
+      radialWrapEl.classList.remove('show');
+      radialWrapEl.innerHTML = '';
+      creamCardEl.classList.remove('has-profile');
+    }
+
+    function renderSearchResults() {
+      const query = normalize(memberSearchEl.value);
+      resultListEl.classList.remove('is-hidden');
+      resultListEl.innerHTML = '';
+
+      if (!query) {
+        searchHintEl.textContent = '닉네임 일부를 입력하면 멤버 후보가 나타납니다.';
+        return;
+      }
+
+      const matched = members
+        .map(member => ({ member, search: getSearchText(member) }))
+        .filter(item => item.search.includes(query))
+        .sort((a, b) => Number(b.member.message_count || 0) - Number(a.member.message_count || 0))
+        .slice(0, 12)
+        .map(item => item.member);
+
+      searchHintEl.textContent = `${num(matched.length)}명 후보 · 선택하면 통계가 열립니다.`;
+
+      if (!matched.length) {
+        resultListEl.innerHTML = '<div class="empty">검색 결과가 없습니다.</div>';
+        return;
+      }
+
+      resultListEl.innerHTML = matched.map(member => `
+        <button class="member-option" type="button" data-index="${members.indexOf(member)}">
+          <strong>${esc(safeName(member))}</strong>
+          <span>${compactNum(member.message_count)}</span>
+        </button>
+      `).join('');
+    }
+
+    resultListEl.addEventListener('click', (event) => {
+      const button = event.target.closest('.member-option');
+      if (!button) return;
+      const index = Number(button.dataset.index);
+      const member = members[index];
+      if (member) showMember(member);
+    });
+
+    memberSearchEl.addEventListener('input', () => {
+      memberSearchEl.placeholder = '닉네임 검색';
+      clearSelectedView();
+      renderSearchResults();
+    });
+
+    function chips(names) {
+      const list = Array.isArray(names) ? names.filter(Boolean).slice(0, 18) : [];
+      if (!list.length) return '<b>-</b>';
+      return `<div class="chips">${list.map(name => `<span class="chip">${esc(name)}</span>`).join('')}</div>`;
+    }
+
+    function showMember(member) {
+      selectedMember = member;
+      creamCardEl.classList.add('has-profile');
+      patternIndex = 0;
+      profileTitleEl.textContent = safeName(member);
+      memberSearchEl.value = '';
+      memberSearchEl.placeholder = 'tap to search';
+      searchHintEl.textContent = '';
+      resultListEl.innerHTML = '';
+      resultListEl.classList.add('is-hidden');
+
+      const names = Array.isArray(member.nickname_history) ? member.nickname_history : [];
+
+      profileFieldsEl.classList.add('show');
+      profileFieldsEl.innerHTML = `
+        <div class="profile-stat-stack">
+          <div class="mini-field"><span>총 메세지</span><b>${num(member.message_count)}개</b></div>
+          <div class="mini-field"><span>총 입퇴장</span><b>${num(member.event_count)}회</b></div>
+          <div class="mini-field"><span>첫 입장</span><b>${esc(member.first_join_date || '-')}</b></div>
+        </div>
+        <div class="nickname-history"><span>닉네임 이력</span>${chips(names)}</div>
+      `;
+
+      radialWrapEl.classList.add('show');
+      renderPatternCarousel();
+    }
+
+    radialWrapEl.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-pattern-move]');
+      if (!button || !selectedMember) return;
+      const move = Number(button.dataset.patternMove || 0);
+      patternIndex = (patternIndex + move + 2) % 2;
+      renderPatternCarousel();
+    });
+
+    function renderPatternCarousel() {
+      if (!selectedMember) return;
+      const charts = [
+        { title: '일 평균 발화 시간대', center: '24H', rows: selectedMember?.total_pattern?.hourly, segmentCount: 24, key: 'hour' },
+        { title: '주 평균 발화 요일', center: '7D', rows: selectedMember?.total_pattern?.daily, segmentCount: 7, key: 'weekday' }
+      ];
+      const chart = charts[patternIndex];
+      radialWrapEl.innerHTML = `
+        <div class="pattern-carousel">
+          <div class="pattern-nav">
+            <button class="pattern-arrow" type="button" data-pattern-move="-1" aria-label="previous pattern">‹</button>
+            <div class="pattern-stage">
+              <div class="radial-card">
+                <div class="radial-title">${chart.title}</div>
+                ${radialChart(chart.rows, chart.segmentCount, chart.key, chart.center)}
+              </div>
+            </div>
+            <button class="pattern-arrow" type="button" data-pattern-move="1" aria-label="next pattern">›</button>
+          </div>
+          <div class="pattern-dots"><span class="pattern-dot ${patternIndex === 0 ? 'active' : ''}"></span><span class="pattern-dot ${patternIndex === 1 ? 'active' : ''}"></span></div>
+        </div>
+      `;
+    }
+
+    function polarPoint(cx, cy, radius, angleDeg) {
+      const angle = angleDeg * Math.PI / 180;
+      return {
+        x: cx + Math.cos(angle) * radius,
+        y: cy + Math.sin(angle) * radius
+      };
+    }
+
+    function wedgePath(cx, cy, innerR, outerR, startDeg, endDeg) {
+      const largeArc = endDeg - startDeg > 180 ? 1 : 0;
+      const p1 = polarPoint(cx, cy, innerR, startDeg);
+      const p2 = polarPoint(cx, cy, outerR, startDeg);
+      const p3 = polarPoint(cx, cy, outerR, endDeg);
+      const p4 = polarPoint(cx, cy, innerR, endDeg);
+      return `M ${p1.x.toFixed(2)} ${p1.y.toFixed(2)} L ${p2.x.toFixed(2)} ${p2.y.toFixed(2)} A ${outerR.toFixed(2)} ${outerR.toFixed(2)} 0 ${largeArc} 1 ${p3.x.toFixed(2)} ${p3.y.toFixed(2)} L ${p4.x.toFixed(2)} ${p4.y.toFixed(2)} A ${innerR.toFixed(2)} ${innerR.toFixed(2)} 0 ${largeArc} 0 ${p1.x.toFixed(2)} ${p1.y.toFixed(2)} Z`;
+    }
+
+    function bandPath(cx, cy, innerR, outerR, startDeg, endDeg) {
+      if (outerR <= innerR) return '';
+      const largeArc = endDeg - startDeg > 180 ? 1 : 0;
+      const p1 = polarPoint(cx, cy, outerR, startDeg);
+      const p2 = polarPoint(cx, cy, outerR, endDeg);
+      const p3 = polarPoint(cx, cy, innerR, endDeg);
+      const p4 = polarPoint(cx, cy, innerR, startDeg);
+      return `M ${p1.x.toFixed(2)} ${p1.y.toFixed(2)} A ${outerR.toFixed(2)} ${outerR.toFixed(2)} 0 ${largeArc} 1 ${p2.x.toFixed(2)} ${p2.y.toFixed(2)} L ${p3.x.toFixed(2)} ${p3.y.toFixed(2)} A ${innerR.toFixed(2)} ${innerR.toFixed(2)} 0 ${largeArc} 0 ${p4.x.toFixed(2)} ${p4.y.toFixed(2)} Z`;
+    }
+
+    function radialChart(rows, segmentCount, key, centerLabel) {
+      const list = Array.isArray(rows) ? rows : [];
+      const values = Array(segmentCount).fill(0);
+
+      list.forEach((row, idx) => {
+        let raw = row?.[key] ?? row?.label ?? idx;
+        let slot = idx;
+
+        if (key === 'hour') {
+          const match = String(raw).match(/\d+/);
+          slot = match ? Number(match[0]) : idx;
+          if (slot >= 24) slot = slot % 24;
+        }
+
+        if (key === 'weekday') {
+          const order = ['월','화','수','목','금','토','일'];
+          const eng = ['mon','tue','wed','thu','fri','sat','sun'];
+          const text = String(raw).toLowerCase();
+          const koIndex = order.findIndex(day => String(raw).includes(day));
+          const enIndex = eng.findIndex(day => text.includes(day));
+          if (koIndex >= 0) slot = koIndex;
+          else if (enIndex >= 0) slot = enIndex;
+        }
+
+        if (slot >= 0 && slot < segmentCount) values[slot] = Number(row?.count || row?.message_count || 0);
+      });
+
+      const max = Math.max(1, ...values);
+      const cx = 90;
+      const cy = 90;
+      const inner = 24;
+      const minOuter = 39;
+      const maxOuter = 72;
+      const step = 360 / segmentCount;
+      const gap = segmentCount === 24 ? 2.5 : 4;
+      const labelEvery = segmentCount === 24 ? 3 : 1;
+      const idSuffix = `${segmentCount}-${String(centerLabel || 'chart').replace(/[^a-z0-9]/gi, '')}`;
+
+      const wedges = values.map((value, index) => {
+        const centerAngle = -90 + step * index;
+        const start = centerAngle - step / 2 + gap / 2;
+        const end = centerAngle + step / 2 - gap / 2;
+        const ratio = value / max;
+        const eased = Math.pow(ratio, .82);
+        const outer = minOuter + eased * (maxOuter - minOuter);
+        const faceOpacity = (.42 + eased * .5).toFixed(2);
+        const shadeOpacity = (.14 + eased * .16).toFixed(2);
+        const highlightOpacity = (.15 + eased * .17).toFixed(2);
+        const softHighlightOpacity = (.05 + eased * .09).toFixed(2);
+        const sideDarkOpacity = (.22 + eased * .24).toFixed(2);
+        const sideGlossOpacity = (.24 + eased * .28).toFixed(2);
+        const sideMintOpacity = (.14 + eased * .18).toFixed(2);
+        const outerShadeInner = Math.max(inner + 8, outer - 5.4);
+        const innerHighlightOuter = Math.max(inner + 8, outer - 6.1);
+        const innerHighlightInner = Math.max(inner + 7, outer - 7.8);
+        const face = wedgePath(cx, cy, inner, outer, start, end);
+        const shade = bandPath(cx, cy, outerShadeInner, outer, start, end);
+        const gloss = bandPath(cx, cy, innerHighlightInner, innerHighlightOuter, start, end);
+
+        const radialStroke = (angle, r1, r2, stroke, width, opacity, className = '') => {
+          const p1 = polarPoint(cx, cy, r1, angle);
+          const p2 = polarPoint(cx, cy, r2, angle);
+          return `<line class="${className}" x1="${p1.x.toFixed(2)}" y1="${p1.y.toFixed(2)}" x2="${p2.x.toFixed(2)}" y2="${p2.y.toFixed(2)}" stroke="${stroke}" stroke-width="${width}" opacity="${opacity}" stroke-linecap="round"/>`;
+        };
+
+        // 조각의 양쪽 변: 실제 경계는 살짝 어둡게, 그 안쪽은 얇은 민트빛 광으로 처리한다.
+        // 선을 정확히 경계에만 얹으면 디지털 스크래치처럼 보이므로, 광선은 조각 안쪽으로 아주 조금 밀어 넣는다.
+        const sideShade = [
+          radialStroke(start, inner + 1.2, Math.max(inner + 5, outer - .8), 'rgba(37, 25, 20, .9)', 1.42, sideDarkOpacity, 'slice-side-shadow'),
+          radialStroke(end, inner + 1.2, Math.max(inner + 5, outer - .8), 'rgba(37, 25, 20, .78)', 1.28, Math.max(0, Number(sideDarkOpacity) - .05).toFixed(2), 'slice-side-shadow')
+        ].join('');
+        const sideGloss = [
+          radialStroke(start + Math.min(2.8, step * .14), inner + 2.0, Math.max(inner + 8, outer - 8.0), 'rgba(255,255,255,.5)', 0.75, sideGlossOpacity, 'slice-side-gloss'),
+          radialStroke(end - Math.min(1.25, step * .14), inner + 4.0, Math.max(inner + 8, outer - 4.5), 'rgba(255,255,255,.72)', .48, Math.max(0, Number(sideGlossOpacity) - .07).toFixed(2), 'slice-side-gloss'),
+          radialStroke(start + Math.min(4.1, step * .2), inner + 5.0, Math.max(inner + 9, outer - 7.4), '#cafff6', 2.25, sideMintOpacity, 'slice-side-mint'),
+          radialStroke(end - Math.min(2.05, step * .2), inner + 5.0, Math.max(inner + 9, outer - 6.4), '#cafff6', 1.64, Math.max(0, Number(sideMintOpacity) - .04).toFixed(2), 'slice-side-mint')
+        ].join('');
+
+        return `
+          <g class="cream-slice">
+            <path d="${face}" fill="#8ff1df" opacity="${faceOpacity}" stroke="rgba(109,77,61,.36)" stroke-width=".64" stroke-linejoin="round" />
+            <path d="${shade}" fill="rgba(42, 65, 61, ${shadeOpacity})" />
+            <path d="${gloss}" fill="rgba(255, 255, 255, ${highlightOpacity})" />
+            <path d="${gloss}" fill="rgba(203, 255, 246, ${softHighlightOpacity})" transform="translate(-.45 -.65)" />
+            <g filter="url(#sideCreamSoft${idSuffix})">${sideShade}${sideGloss}</g>
+          </g>`;
+      }).join('');
+
+      const dividers = Array.from({ length: segmentCount }).map((_, index) => {
+        const angle = -90 - step / 2 + step * index;
+        const p1 = polarPoint(cx, cy, 23, angle);
+        const p2 = polarPoint(cx, cy, 74, angle);
+        return `<line x1="${p1.x.toFixed(2)}" y1="${p1.y.toFixed(2)}" x2="${p2.x.toFixed(2)}" y2="${p2.y.toFixed(2)}" stroke="var(--graph-line)" stroke-width=".82" opacity=".46" />`;
+      }).join('');
+
+      const labels = Array.from({ length: segmentCount }).map((_, index) => {
+        if (index % labelEvery !== 0) return '';
+        const angle = -90 + step * index;
+        const p = polarPoint(cx, cy, 79, angle);
+        const label = segmentCount === 24 ? index : ['월','화','수','목','금','토','일'][index];
+        const fs = segmentCount === 24 ? 9 : 11;
+        const r = segmentCount === 24 ? 9 : 10;
+        return `<g><circle cx="${p.x.toFixed(2)}" cy="${p.y.toFixed(2)}" r="${r}" fill="#2a1d17" stroke="#8ff1df" stroke-width="1.4" opacity=".96"/><text x="${p.x.toFixed(2)}" y="${(p.y + fs * .34).toFixed(2)}" text-anchor="middle" font-size="${fs}" font-weight="1000" fill="#fff7e9">${esc(label)}</text></g>`;
+      }).join('');
+
+      return `
+        <svg viewBox="0 0 180 180" role="img" aria-label="${segmentCount} segment cookie radial chart">
+          <defs>
+            <radialGradient id="cookieGrad${idSuffix}" cx="35%" cy="28%" r="72%">
+              <stop offset="0%" stop-color="#5a4033"/>
+              <stop offset="55%" stop-color="#2b1f19"/>
+              <stop offset="100%" stop-color="#15100d"/>
+            </radialGradient>
+            <filter id="creamSoftLift${idSuffix}" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+              <feDropShadow dx="0" dy=".9" stdDeviation=".75" flood-color="#050403" flood-opacity=".24"/>
+            </filter>
+            <filter id="sideCreamSoft${idSuffix}" x="-18%" y="-18%" width="136%" height="136%" color-interpolation-filters="sRGB">
+              <feGaussianBlur stdDeviation=".16" result="softSide"/>
+              <feMerge>
+                <feMergeNode in="softSide"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="90" cy="90" r="76" fill="url(#cookieGrad${idSuffix})" stroke="#0b0807" stroke-width="5"/>
+          <circle cx="60" cy="53" r="5" fill="#17100d" opacity=".85"/>
+          <circle cx="123" cy="62" r="4" fill="#6b4e3e" opacity=".55"/>
+          <circle cx="125" cy="124" r="6" fill="#110c0a" opacity=".72"/>
+          <circle cx="53" cy="122" r="3.5" fill="#735642" opacity=".48"/>
+          ${dividers}
+          <g filter="url(#creamSoftLift${idSuffix})">${wedges}</g>
+          <circle cx="90" cy="90" r="23" fill="#8ff1df" stroke="var(--graph-line)" stroke-width="1.5" opacity=".98"/>
+          <text x="90" y="94" text-anchor="middle" font-size="12" font-weight="1000" fill="var(--cookie-edge)">${esc(centerLabel || '')}</text>
+          ${labels}
+        </svg>
+      `;
+    }
+
+    function renderAll(nextPayload) {
+      payload = nextPayload || {};
+      members = Array.isArray(payload.members) ? payload.members : [];
+      clearSelectedView();
+      renderSummary();
+      renderRanking();
+      renderMonthlyChart();
+      renderSearchResults();
+    }
+
+    async function loadFromFileInput(file) {
+      if (!file) return;
+      renderAll(JSON.parse(await file.text()));
+      enterSearchMode();
+    }
+
+    fetch('stats_for_display.json', { cache: 'no-store' })
+      .then(res => {
+        if (!res.ok) throw new Error(res.statusText);
+        return res.json();
+      })
+      .then(renderAll)
+      .catch(() => {
+        rankingListEl.innerHTML = '<div class="loading">자동 로드 실패. 같은 폴더의 stats_for_display.json을 확인하세요.<input id="jsonFile" class="file-pick" type="file" accept=".json,application/json"></div>';
+        monthlyChartEl.innerHTML = '<div class="loading">JSON이 로드되면 월별 그래프가 표시됩니다.</div>';
+        const jsonFile = document.getElementById('jsonFile');
+        jsonFile.addEventListener('change', () => loadFromFileInput(jsonFile.files && jsonFile.files[0]));
+      });
+  </script>
+</body>
+</html>

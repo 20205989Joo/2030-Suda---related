@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
@@ -8,7 +8,7 @@
   <!-- Modern editorial (NO KR serif) -->
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap");
-  </style>
+</style>
 
   <style>
     :root{
@@ -406,11 +406,126 @@
     .indent3{ margin-left: 3.6em; }
 
     .tight .line{ margin: 6px 0; }
-  </style>
+    /* BISCUIT_STATS_LINK_STYLE */
+    .stats-link{
+      display: block;
+      width: fit-content;
+      margin: 0 0 4px auto;
+      padding: 0;
+      background: transparent;
+      color: rgba(122,112,98,.68);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2;
+      box-shadow: none;
+      cursor: default;
+    }
+    .stats-link:hover,
+    .stats-link:focus-visible{
+      color: rgba(122,112,98,.72);
+    }
+    .stats-pass-modal{
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(48,42,36,.42);
+      backdrop-filter: blur(4px);
+    }
+    .stats-pass-modal.is-open{ display: flex; }
+    .stats-pass-dialog{
+      width: min(360px, 100%);
+      border: 1px solid rgba(76,70,60,.16);
+      border-radius: 18px;
+      background: rgba(255,252,246,.96);
+      box-shadow: 0 24px 60px rgba(48,42,36,.24), inset 0 1px 0 rgba(255,255,255,.82);
+      padding: 22px;
+      color: var(--inkText);
+    }
+    .stats-pass-title{
+      margin: 0 0 12px;
+      color: var(--inkTitle);
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+    .stats-pass-label{
+      display: block;
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .stats-pass-input{
+      width: 100%;
+      height: 42px;
+      box-sizing: border-box;
+      border: 1px solid rgba(76,70,60,.18);
+      border-radius: 12px;
+      background: rgba(255,255,255,.84);
+      color: var(--inkText);
+      font: 700 16px var(--sans);
+      padding: 0 12px;
+      outline: none;
+    }
+    .stats-pass-input:focus{
+      border-color: rgba(63,90,78,.64);
+      box-shadow: 0 0 0 3px rgba(63,90,78,.14);
+    }
+    .stats-pass-error{
+      min-height: 20px;
+      margin: 8px 0 12px;
+      color: rgba(190,58,45,.95);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+    .stats-pass-actions{
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .stats-pass-button{
+      height: 38px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 15px;
+      font: 800 13px var(--sans);
+      cursor: pointer;
+    }
+    .stats-pass-button.cancel{
+      background: rgba(76,70,60,.08);
+      color: var(--inkText);
+    }
+    .stats-pass-button.confirm{
+      background: rgba(63,90,78,.94);
+      color: #fffaf1;
+      box-shadow: 0 8px 18px rgba(48,42,36,.14);
+    }
+    body.stats-pass-open{ overflow: hidden; }
+    @media print{ .stats-link, .stats-pass-modal{ display:none; } }
+</style>
 </head>
 
 <body>
+  <div class="stats-pass-modal" id="statsPassModal" aria-hidden="true">
+    <form class="stats-pass-dialog" id="statsPassForm" role="dialog" aria-modal="true" aria-labelledby="statsPassTitle">
+      <p class="stats-pass-title" id="statsPassTitle">비밀번호</p>
+      <label class="stats-pass-label" for="statsPassInput">비밀번호를 입력해주세요.</label>
+      <input class="stats-pass-input" id="statsPassInput" type="password" autocomplete="current-password" />
+      <div class="stats-pass-error" id="statsPassError" aria-live="polite"></div>
+      <div class="stats-pass-actions">
+        <button class="stats-pass-button cancel" type="button" id="statsPassCancel">취소</button>
+        <button class="stats-pass-button confirm" type="submit">확인</button>
+      </div>
+    </form>
+  </div>
   <div class="wrap">
+    <!-- BISCUIT_STATS_LINK --><a class="stats-link" href="stats.html">by biscuit</a>
 
     <div class="title-block">
       <h1>Rules</h1>
@@ -682,8 +797,8 @@
               <div class="line dash">- 발언의 2/3 이상이 본인의 자랑이나 신세한탄, 조언 구하기로만 이뤄진 경우 주의를 받을 수 있습니다. 지속될 경우, 경고 또는 강퇴까지 가능합니다.</div>
               <div class="line dash">- 같은 주제에 대해 과도한 관심 유도를 반복하는 경우, 주의를 받을 수 있습니다.</div>
               <div class="line dash">- 투정과 위로 등 감정적인 발산은 들어주는 사람의 피로도를 최우선으로 고려하는 것이 원칙이며, 언제든지 고민방으로 이관되거나 대화 진행을 멈추도록 요청받을 수 있습니다. 이에 응하지 않을 경우 경고 또는 강퇴의 강력한 제재를 받을 수 있습니다.</div>
-              <div class="line dash">- 고민의 명확한 묘사는 피하면서 정서적 지지만을 지속적으로 유도하는 화법 ('티만 자꾸 내기') 또한 경고의 대상이 될 수 있습니다.</div>
-              <div class="line dash">- 조언을 빙자해 과도한 자기 어필이나 무시, 가스라이팅 등으로 이어지는 경우에도 주의 또는 경고의 대상이 될 수 있습니다.</div>
+              <div class="line dash">- 고민의 명확한 묘사는 피하면서 정서적 지지만을 지속적으로 유도하는 화법 ('티만 자꾸 내기') 또한 경고의 대상이 될 수 있습니다. 원활한 의사소통을 위해 문제상황을 최대한 명료하게 전달해주세요.</div>
+              <div class="line dash">- 조언을 빙자해 불필요한 자기 어필이나 과도한 무시, 가스라이팅 등으로 이어지는 경우에도 주의 또는 경고의 대상이 될 수 있습니다. </div>
               <div class="line dash">- 적절한 유대감 형성도 없이 무맥락 발언만으로 관심을 끄는 시도(소위 '어그로')의 경우, 운영진에 의해 경고 또는 강퇴의 제재를 받을 수 있습니다.</div>
             </div>
           </div>
@@ -826,5 +941,57 @@
     </section>
 
   </div>
+  <script>
+    (function(){
+      const STATS_PASSWORD = "1104";
+
+      const statsLink = document.querySelector(".stats-link");
+      const modal = document.getElementById("statsPassModal");
+      const form = document.getElementById("statsPassForm");
+      const input = document.getElementById("statsPassInput");
+      const error = document.getElementById("statsPassError");
+      const cancel = document.getElementById("statsPassCancel");
+
+      function openModal(){
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("stats-pass-open");
+        input.value = "";
+        error.textContent = "";
+        setTimeout(function(){ input.focus(); }, 0);
+      }
+
+      function closeModal(){
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("stats-pass-open");
+      }
+
+      statsLink.addEventListener("click", function(event){
+        event.preventDefault();
+        openModal();
+      });
+
+      form.addEventListener("submit", function(event){
+        event.preventDefault();
+        if(input.value === STATS_PASSWORD){
+          window.location.href = statsLink.href;
+          return;
+        }
+        error.textContent = "비밀번호가 맞지 않습니다.";
+        input.select();
+      });
+
+      cancel.addEventListener("click", closeModal);
+      modal.addEventListener("click", function(event){
+        if(event.target === modal) closeModal();
+      });
+      document.addEventListener("keydown", function(event){
+        if(event.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+      });
+    })();
+  </script>
 </body>
 </html>
+
+
