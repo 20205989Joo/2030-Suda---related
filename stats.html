@@ -1008,7 +1008,7 @@
     <div id="app" class="app">
       <section class="cookie-panel home-hero" aria-label="summary dashboard">
         <div class="hero-title-block">
-          <div class="page-title"><span class="code">[2030]</span> 수다방 통계 （ver. 260503）</div>
+          <div class="page-title"><span class="code">[2030]</span> 수다방 통계 （<span id="statsVersion">ver. -</span>）</div>
           <div class="emboss-divider" aria-hidden="true"></div>
         </div>
 
@@ -1072,6 +1072,7 @@
     const totalMessagesEl = document.getElementById('totalMessages');
     const rankingListEl = document.getElementById('rankingList');
     const monthlyChartEl = document.getElementById('monthlyChart');
+    const statsVersionEl = document.getElementById('statsVersion');
     const memberSearchEl = document.getElementById('memberSearch');
     const resultListEl = document.getElementById('resultList');
     const searchHintEl = document.getElementById('searchHint');
@@ -1084,10 +1085,21 @@
     let members = [];
     let selectedMember = null;
     let patternIndex = 0;
+    const statsDataFile = 'stats_for_display_20260509.json';
 
     const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
     const normalize = (value) => String(value ?? '').trim().toLowerCase();
     const num = (value) => Number(value || 0).toLocaleString('ko-KR');
+
+    function versionFromStatsFile(fileName) {
+      const match = String(fileName || '').match(/stats_for_display[_-]?(\d{6}|\d{8})\.json$/i);
+      if (!match) return '';
+      const suffix = match[1];
+      if (suffix.length === 8) return `${suffix.slice(2, 4)}${suffix.slice(4, 6)}${suffix.slice(6, 8)}`;
+      return suffix;
+    }
+
+    statsVersionEl.textContent = `ver. ${versionFromStatsFile(statsDataFile) || '-'}`;
 
     function compactNum(value) {
       const n = Number(value || 0);
@@ -1489,14 +1501,14 @@
       enterSearchMode();
     }
 
-    fetch('stats_for_display.json', { cache: 'no-store' })
+    fetch(statsDataFile, { cache: 'no-store' })
       .then(res => {
         if (!res.ok) throw new Error(res.statusText);
         return res.json();
       })
       .then(renderAll)
       .catch(() => {
-        rankingListEl.innerHTML = '<div class="loading">자동 로드 실패. 같은 폴더의 stats_for_display.json을 확인하세요.<input id="jsonFile" class="file-pick" type="file" accept=".json,application/json"></div>';
+        rankingListEl.innerHTML = `<div class="loading">자동 로드 실패. 같은 폴더의 ${esc(statsDataFile)}을 확인하세요.<input id="jsonFile" class="file-pick" type="file" accept=".json,application/json"></div>`;
         monthlyChartEl.innerHTML = '<div class="loading">JSON이 로드되면 월별 그래프가 표시됩니다.</div>';
         const jsonFile = document.getElementById('jsonFile');
         jsonFile.addEventListener('change', () => loadFromFileInput(jsonFile.files && jsonFile.files[0]));
