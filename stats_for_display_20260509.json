@@ -1,5 +1,8 @@
 {
   "total_message_count": 4744493,
+  "total_active_member_count": 4617,
+  "active_member_count": 4617,
+  "member_count": 4617,
   "monthly_conversation_volume": [
     {
       "month": "2023-12",
@@ -130,7 +133,10 @@
         "2023-12"
       ],
       "message_count": 3595,
-      "rankable_member_count": 5,
+      "active_member_count": 9,
+      "member_count": 9,
+      "rankable_member_count": 9,
+      "formatted_identity_member_count": 5,
       "top_members": [
         {
           "member_id": "m0002",
@@ -147,6 +153,13 @@
           "percent": 28.32
         },
         {
+          "member_id": "y0001",
+          "current_nickname": "채팅도 기빨려..",
+          "message_count": 573,
+          "ratio": 0.159388,
+          "percent": 15.94
+        },
+        {
           "member_id": "m0003",
           "current_nickname": "재미",
           "message_count": 322,
@@ -161,11 +174,25 @@
           "percent": 2.61
         },
         {
+          "member_id": "y0006",
+          "current_nickname": "#",
+          "message_count": 53,
+          "ratio": 0.014743,
+          "percent": 1.47
+        },
+        {
           "member_id": "m0005",
           "current_nickname": "혀니",
           "message_count": 14,
           "ratio": 0.003894,
           "percent": 0.39
+        },
+        {
+          "member_id": "y0003",
+          "current_nickname": "오픈채팅봇",
+          "message_count": 12,
+          "ratio": 0.003338,
+          "percent": 0.33
         }
       ]
     },
@@ -178,7 +205,10 @@
         "2024-03"
       ],
       "message_count": 37406,
-      "rankable_member_count": 92,
+      "active_member_count": 118,
+      "member_count": 118,
+      "rankable_member_count": 118,
+      "formatted_identity_member_count": 92,
       "top_members": [
         {
           "member_id": "m0002",
@@ -230,11 +260,11 @@
           "percent": 4.4
         },
         {
-          "member_id": "m0013",
-          "current_nickname": "제이",
-          "message_count": 834,
-          "ratio": 0.022296,
-          "percent": 2.23
+          "member_id": "y0024",
+          "current_nickname": "콘이 웃긴 무지",
+          "message_count": 1619,
+          "ratio": 0.043282,
+          "percent": 4.33
         }
       ]
     },
@@ -247,7 +277,10 @@
         "2024-06"
       ],
       "message_count": 332966,
-      "rankable_member_count": 278,
+      "active_member_count": 355,
+      "member_count": 355,
+      "rankable_member_count": 355,
+      "formatted_identity_member_count": 278,
       "top_members": [
         {
           "member_id": "m0007",
@@ -255,6 +288,13 @@
           "message_count": 35902,
           "ratio": 0.107825,
           "percent": 10.78
+        },
+        {
+          "member_id": "y0109",
+          "current_nickname": "불금 네오",
+          "message_count": 29624,
+          "ratio": 0.08897,
+          "percent": 8.9
         },
         {
           "member_id": "m0150",
@@ -285,25 +325,18 @@
           "percent": 3.41
         },
         {
-          "member_id": "m0161",
-          "current_nickname": "두릅",
-          "message_count": 9734,
-          "ratio": 0.029234,
-          "percent": 2.92
+          "member_id": "y0054",
+          "current_nickname": "엄지척 제이지",
+          "message_count": 11263,
+          "ratio": 0.033826,
+          "percent": 3.38
         },
         {
-          "member_id": "m0222",
-          "current_nickname": "준",
-          "message_count": 9465,
-          "ratio": 0.028426,
-          "percent": 2.84
-        },
-        {
-          "member_id": "m0151",
-          "current_nickname": "스미",
-          "message_count": 7451,
-          "ratio": 0.022378,
-          "percent": 2.24
+          "member_id": "y0093",
+          "current_nickname": "(알 수 없음)",
+          "message_count": 10954,
+          "ratio": 0.032898,
+          "percent": 3.29
         }
       ]
     },
@@ -316,7 +349,10 @@
         "2024-09"
       ],
       "message_count": 984364,
-      "rankable_member_count": 524,
+      "active_member_count": 631,
+      "member_count": 631,
+      "rankable_member_count": 631,
+      "formatted_identity_member_count": 524,
       "top_members": [
         {
           "member_id": "m0474",
@@ -324,6 +360,13 @@
           "message_count": 69490,
           "ratio": 0.070594,
           "percent": 7.06
+        },
+        {
+          "member_id": "y0079",
+          "current_nickname": "좌절하는 라이언",
+          "message_count": 68778,
+          "ratio": 0.06987,
+          "percent": 6.99
         },
         {
           "member_id": "m0150",
@@ -366,13 +409,6 @@
           "message_count": 31038,
           "ratio": 0.031531,
           "percent": 3.15
-        },
-        {
-          "member_id": "m0310",
-          "current_nickname": "겨울❄️",
-          "message_count": 30745,
-          "ratio": 0.031233,
-          "percent": 3.12
         }
       ]
     },
@@ -385,7 +421,10 @@
         "2024-12"
       ],
       "message_count": 764589,
-      "rankable_member_count": 439,
+      "active_member_count": 524,
+      "member_count": 524,
+      "rankable_member_count": 524,
+      "formatted_identity_member_count": 439,
       "top_members": [
         {
           "member_id": "m0474",
@@ -430,18 +469,18 @@
           "percent": 3.61
         },
         {
-          "member_id": "m1044",
-          "current_nickname": "개굴",
-          "message_count": 17997,
-          "ratio": 0.023538,
-          "percent": 2.35
+          "member_id": "y0401",
+          "current_nickname": "인사하는 춘식이",
+          "message_count": 25701,
+          "ratio": 0.033614,
+          "percent": 3.36
         },
         {
-          "member_id": "m0310",
-          "current_nickname": "겨울❄️",
-          "message_count": 17988,
-          "ratio": 0.023526,
-          "percent": 2.35
+          "member_id": "y0079",
+          "current_nickname": "좌절하는 라이언",
+          "message_count": 23341,
+          "ratio": 0.030528,
+          "percent": 3.05
         }
       ]
     },
@@ -454,7 +493,10 @@
         "2025-03"
       ],
       "message_count": 548239,
-      "rankable_member_count": 852,
+      "active_member_count": 971,
+      "member_count": 971,
+      "rankable_member_count": 971,
+      "formatted_identity_member_count": 852,
       "top_members": [
         {
           "member_id": "m1591",
@@ -523,7 +565,10 @@
         "2025-06"
       ],
       "message_count": 463656,
-      "rankable_member_count": 606,
+      "active_member_count": 673,
+      "member_count": 673,
+      "rankable_member_count": 673,
+      "formatted_identity_member_count": 606,
       "top_members": [
         {
           "member_id": "m1515",
@@ -592,7 +637,10 @@
         "2025-09"
       ],
       "message_count": 382841,
-      "rankable_member_count": 369,
+      "active_member_count": 412,
+      "member_count": 412,
+      "rankable_member_count": 412,
+      "formatted_identity_member_count": 369,
       "top_members": [
         {
           "member_id": "m0839",
@@ -661,7 +709,10 @@
         "2025-12"
       ],
       "message_count": 489105,
-      "rankable_member_count": 763,
+      "active_member_count": 822,
+      "member_count": 822,
+      "rankable_member_count": 822,
+      "formatted_identity_member_count": 763,
       "top_members": [
         {
           "member_id": "m0839",
@@ -730,7 +781,10 @@
         "2026-03"
       ],
       "message_count": 540560,
-      "rankable_member_count": 880,
+      "active_member_count": 966,
+      "member_count": 966,
+      "rankable_member_count": 966,
+      "formatted_identity_member_count": 880,
       "top_members": [
         {
           "member_id": "m3491",
@@ -798,7 +852,10 @@
         "2026-05"
       ],
       "message_count": 155971,
-      "rankable_member_count": 255,
+      "active_member_count": 274,
+      "member_count": 274,
+      "rankable_member_count": 274,
+      "formatted_identity_member_count": 255,
       "top_members": [
         {
           "member_id": "m3491",
@@ -859,6 +916,8 @@
       ]
     }
   ],
+  "exported_member_count": 4736,
+  "member_record_count": 4736,
   "members": [
     {
       "member_id": "m0001",
@@ -811251,5 +811310,18 @@
         ]
       }
     }
-  ]
+  ],
+  "export_date": "2026-05-09",
+  "exported_at": "2026-05-09T17:51:50",
+  "active_profile_member_count": 4127,
+  "active_yet_bucket_count": 490,
+  "active_member_breakdown": {
+    "profile_member_count": 4127,
+    "yet_bucket_count": 490,
+    "total": 4617,
+    "basis": "message ownership cache member ids with at least one owned message"
+  },
+  "total_visitor_count": 4736,
+  "visitor_count": 4736,
+  "profile_member_count": 4736
 }

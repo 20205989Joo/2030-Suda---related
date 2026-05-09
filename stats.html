@@ -1085,21 +1085,87 @@
     let members = [];
     let selectedMember = null;
     let patternIndex = 0;
-    const statsDataFile = 'stats_for_display_20260509.json';
+    let loadedStatsDataFile = '';
+    const statsDataFallbackFile = 'stats_for_display.json';
+    const statsDataEarliestDate = '20231201';
+    const statsFilePattern = /stats_for_display[_-]?(\d{6}|\d{8})\.json$/i;
 
     const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
     const normalize = (value) => String(value ?? '').trim().toLowerCase();
     const num = (value) => Number(value || 0).toLocaleString('ko-KR');
 
     function versionFromStatsFile(fileName) {
-      const match = String(fileName || '').match(/stats_for_display[_-]?(\d{6}|\d{8})\.json$/i);
+      const match = String(fileName || '').match(statsFilePattern);
       if (!match) return '';
       const suffix = match[1];
       if (suffix.length === 8) return `${suffix.slice(2, 4)}${suffix.slice(4, 6)}${suffix.slice(6, 8)}`;
       return suffix;
     }
 
-    statsVersionEl.textContent = `ver. ${versionFromStatsFile(statsDataFile) || '-'}`;
+    function versionFromPayload(data) {
+      const raw = data?.export_date || data?.generated_date || data?.exported_at || '';
+      const digits = String(raw || '').replace(/\D/g, '');
+      if (digits.length >= 8) return `${digits.slice(2, 4)}${digits.slice(4, 6)}${digits.slice(6, 8)}`;
+      return versionFromStatsFile(loadedStatsDataFile) || '-';
+    }
+
+    statsVersionEl.textContent = 'ver. -';
+
+    function statsFileDateKey(fileName) {
+      const match = String(fileName || '').match(statsFilePattern);
+      if (!match) return 0;
+      const suffix = match[1];
+      return Number(suffix.length === 8 ? suffix : `20${suffix}`);
+    }
+
+    function latestStatsFileFromList(fileNames) {
+      return [...new Set(fileNames)]
+        .filter(fileName => statsFileDateKey(fileName) > 0)
+        .sort((a, b) => statsFileDateKey(b) - statsFileDateKey(a))[0] || '';
+    }
+
+    function ymdFromDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}${month}${day}`;
+    }
+
+    function dateFromYmd(value) {
+      return new Date(Number(value.slice(0, 4)), Number(value.slice(4, 6)) - 1, Number(value.slice(6, 8)));
+    }
+
+    async function latestStatsFileFromDirectory() {
+      try {
+        const res = await fetch('./', { cache: 'no-store' });
+        if (!res.ok) return '';
+        const text = await res.text();
+        const names = text.match(/stats_for_display(?:[_-]?\d{6,8})?\.json/gi) || [];
+        return latestStatsFileFromList(names.map(name => decodeURIComponent(name)));
+      } catch {
+        return '';
+      }
+    }
+
+    async function latestStatsFileByDateProbe() {
+      const end = dateFromYmd(statsDataEarliestDate);
+      for (let cursor = new Date(); cursor >= end; cursor.setDate(cursor.getDate() - 1)) {
+        const fileName = `stats_for_display_${ymdFromDate(cursor)}.json`;
+        try {
+          const res = await fetch(fileName, { method: 'HEAD', cache: 'no-store' });
+          if (res.ok) return fileName;
+        } catch {
+          return '';
+        }
+      }
+      return '';
+    }
+
+    async function findStatsDataFile() {
+      return await latestStatsFileFromDirectory()
+        || await latestStatsFileByDateProbe()
+        || statsDataFallbackFile;
+    }
 
     function compactNum(value) {
       const n = Number(value || 0);
@@ -1141,7 +1207,8 @@
     function renderSummary() {
       const fallbackTotal = members.reduce((sum, member) => sum + Number(member.message_count || 0), 0);
       const messageTotal = Number(payload?.total_message_count || fallbackTotal);
-      totalMembersEl.textContent = num(members.length);
+      const visitorTotal = Number(payload?.total_visitor_count || payload?.visitor_count || payload?.profile_member_count || payload?.exported_member_count || payload?.member_record_count || 0);
+      totalMembersEl.textContent = num(visitorTotal || members.length);
       totalMessagesEl.textContent = compactNum(messageTotal);
     }
 
@@ -1488,6 +1555,7 @@
     function renderAll(nextPayload) {
       payload = nextPayload || {};
       members = Array.isArray(payload.members) ? payload.members : [];
+      statsVersionEl.textContent = `ver. ${versionFromPayload(payload)}`;
       clearSelectedView();
       renderSummary();
       renderRanking();
@@ -1497,22 +1565,26 @@
 
     async function loadFromFileInput(file) {
       if (!file) return;
+      loadedStatsDataFile = file.name || '';
       renderAll(JSON.parse(await file.text()));
       enterSearchMode();
     }
 
-    fetch(statsDataFile, { cache: 'no-store' })
-      .then(res => {
+    async function loadInitialStats() {
+      try {
+        loadedStatsDataFile = await findStatsDataFile();
+        const res = await fetch(loadedStatsDataFile, { cache: 'no-store' });
         if (!res.ok) throw new Error(res.statusText);
-        return res.json();
-      })
-      .then(renderAll)
-      .catch(() => {
-        rankingListEl.innerHTML = `<div class="loading">자동 로드 실패. 같은 폴더의 ${esc(statsDataFile)}을 확인하세요.<input id="jsonFile" class="file-pick" type="file" accept=".json,application/json"></div>`;
+        renderAll(await res.json());
+      } catch {
+        rankingListEl.innerHTML = `<div class="loading">자동 로드 실패. 같은 폴더의 stats_for_display_YYYYMMDD.json 또는 ${esc(statsDataFallbackFile)}을 확인하세요.<input id="jsonFile" class="file-pick" type="file" accept=".json,application/json"></div>`;
         monthlyChartEl.innerHTML = '<div class="loading">JSON이 로드되면 월별 그래프가 표시됩니다.</div>';
         const jsonFile = document.getElementById('jsonFile');
         jsonFile.addEventListener('change', () => loadFromFileInput(jsonFile.files && jsonFile.files[0]));
-      });
+      }
+    }
+
+    loadInitialStats();
   </script>
 </body>
 </html>
